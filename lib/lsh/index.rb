@@ -26,8 +26,8 @@ module LSH
         storage.parameters = parameters
         # Initializing projections and buckets
         storage.projections = generate_projections(
-          parameters[:dim], 
-          parameters[:number_of_random_vectors], 
+          parameters[:dim],
+          parameters[:number_of_random_vectors],
           parameters[:number_of_independent_projections]
         )
         parameters[:number_of_independent_projections].times { |i| storage.create_new_bucket }
@@ -35,7 +35,7 @@ module LSH
     end
 
     def self.load(storage)
-      Index.new(storage.parameters, storage) if storage.has_index? 
+      Index.new(storage.parameters, storage) if storage.has_index?
     end
 
     def add(vector, id = nil)
@@ -48,7 +48,7 @@ module LSH
       end
       id
     end
-    
+
     def id_to_vector(id)
       storage.id_to_vector(id)
     end
@@ -105,7 +105,7 @@ module LSH
       end
       hashes
     end
- 
+
     def hash(vector, projection, bias = true)
       dot_products = (projection * vector.transpose).column(0).to_a
       window = storage.parameters[:window]

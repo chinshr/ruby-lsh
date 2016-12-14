@@ -105,7 +105,7 @@ module LSH
           )
         rescue TypeError
           nil
-        end 
+        end
       end
 
       def create_new_bucket
@@ -117,16 +117,16 @@ module LSH
       end
 
       def save_vector(vector, vector_id)
-        path = File.join(@data_dir, vector_id+'.dat')
+        path = File.join(@data_dir, "#{vector_id}.dat")
         raise "File #{path} already exists" if File.exists?(path)
-        vector.save(path) 
+        vector.save(path)
         @vector_cache[vector_id] = vector if @cache_vectors
       end
 
       def load_vector(vector_id)
         @vector_cache[vector_id] || (
           vector = MathUtil.zeros(1, parameters[:dim])
-          vector.load(File.join(@data_dir, vector_id+'.dat'))
+          vector.load(File.join(@data_dir, "#{vector_id}.dat"))
           @vector_cache[vector_id] = vector if @cache_vectors
           vector
         )
