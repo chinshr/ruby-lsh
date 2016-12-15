@@ -98,7 +98,7 @@ class TestStorageRedis < Test::Unit::TestCase
     index = LSH::Index.new(@parameters, @storage)
     assert_equal 5, @storage.projections.size
     v = LSH::MathUtil.zeros(8, 10)
-    v.load(File.join(Dir.tmpdir, 'ruby-lsh-test-data', 'projections', 'projection_2.dat'))
+    v.load(File.join(Dir.tmpdir, 'ruby-lsh-test-data', 'projections', 'projection-2.dat'))
     assert_equal v, @storage.projections[2]
   end
 

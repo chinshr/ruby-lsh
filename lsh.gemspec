@@ -11,11 +11,11 @@ Gem::Specification.new do |s|
   s.has_rdoc = false
   s.authors = ['Yves Raimond']
   s.files = [
-    "lib/lsh.rb", 
-    "lib/lsh/index.rb", 
+    "lib/lsh.rb",
+    "lib/lsh/index.rb",
     "lib/lsh/math_util_gsl.rb",
     "lib/lsh/math_util_jblas.rb",
-    "lib/lsh/web.rb", 
+    "lib/lsh/web.rb",
     "lib/lsh/storage/memory.rb",
     "lib/lsh/storage/redis_backend.rb",
   ]
@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'json'
   s.add_dependency 'redis'
   s.add_dependency 'sinatra'
-  
+
   s.add_development_dependency 'mock_redis'
   s.add_development_dependency 'rack-test'
   s.add_development_dependency 'rake'

@@ -73,7 +73,7 @@ module LSH
         # (too slow to serialize and store in Redis for
         # large number of dimensions/projections)
         projections.each_with_index do |projection, i|
-          projection.save(File.join(@data_dir, 'projections', "projection_#{i}.dat"))
+          projection.save(File.join(@data_dir, 'projections', "projection-#{i}.dat"))
         end
       end
 
@@ -83,7 +83,7 @@ module LSH
           projections = []
           parameters[:number_of_independent_projections].times do |i|
             m = MathUtil.zeros(parameters[:number_of_random_vectors], parameters[:dim])
-            m.load(File.join(@data_dir, 'projections', "projection_#{i}.dat"))
+            m.load(File.join(@data_dir, 'projections', "projection-#{i}.dat"))
             projections << m
           end
           projections
@@ -117,7 +117,7 @@ module LSH
       end
 
       def save_vector(vector, vector_id)
-        path = File.join(@data_dir, "#{vector_id}.dat")
+        path = File.join(@data_dir, "vector-#{vector_id}.dat")
         raise "File #{path} already exists" if File.exists?(path)
         vector.save(path)
         @vector_cache[vector_id] = vector if @cache_vectors
@@ -126,7 +126,7 @@ module LSH
       def load_vector(vector_id)
         @vector_cache[vector_id] || (
           vector = MathUtil.zeros(1, parameters[:dim])
-          vector.load(File.join(@data_dir, "#{vector_id}.dat"))
+          vector.load(File.join(@data_dir, "vector-#{vector_id}.dat"))
           @vector_cache[vector_id] = vector if @cache_vectors
           vector
         )
