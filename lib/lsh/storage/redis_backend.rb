@@ -79,7 +79,7 @@ module LSH
 
       def projections
         return unless parameters
-        @projections ||= (
+        @projections ||= begin
           projections = []
           parameters[:number_of_independent_projections].times do |i|
             m = MathUtil.zeros(parameters[:number_of_random_vectors], parameters[:dim])
@@ -87,7 +87,9 @@ module LSH
             projections << m
           end
           projections
-        )
+        rescue IOError
+          nil
+        end
       end
 
       def parameters=(parms)
