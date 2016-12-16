@@ -97,12 +97,12 @@ module LSH
 
       def parameters
         begin
-          @parms ||= (
+          @parms ||= begin
             parms = JSON.parse(@redis.get "lsh:parameters")
             parms.keys.each { |k| parms[k.to_sym] = parms[k]; parms.delete(k) }
             parms[:window] = Float::INFINITY if parms[:window] == 'Infinity'
             parms
-          )
+          end
         rescue TypeError
           nil
         end
@@ -117,19 +117,22 @@ module LSH
       end
 
       def save_vector(vector, vector_id)
-        path = File.join(@data_dir, "vector-#{vector_id}.dat")
-        raise "File #{path} already exists" if File.exists?(path)
-        vector.save(path)
+        vector_file_path = File.join(@data_dir, "vector-#{vector_id}.dat")
+        raise "File #{vector_file_path} already exists" if File.exists?(vector_file_path)
+        vector.save(vector_file_path)
         @vector_cache[vector_id] = vector if @cache_vectors
       end
 
       def load_vector(vector_id)
-        @vector_cache[vector_id] || (
-          vector = MathUtil.zeros(1, parameters[:dim])
-          vector.load(File.join(@data_dir, "vector-#{vector_id}.dat"))
-          @vector_cache[vector_id] = vector if @cache_vectors
-          vector
-        )
+        @vector_cache[vector_id] || begin
+          vector_file_path = File.join(@data_dir, "vector-#{vector_id}.dat")
+          if File.exist?(vector_file_path)
+            vector = MathUtil.zeros(1, parameters[:dim])
+            vector.load(vector_file_path)
+            @vector_cache[vector_id] = vector if @cache_vectors
+            vector
+          end
+        end
       end
 
       def add_vector(vector, vector_id)
